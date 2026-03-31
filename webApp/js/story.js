@@ -34,6 +34,20 @@ const needClicked = new Set();
 let currentStep = 1;
 
 (() => {
+	function enterFullscreen() {
+		const element = document.documentElement;
+
+		if (element.requestFullscreen) {
+			element.requestFullscreen();
+		} else if (element.mozRequestFullScreen) { // Firefox
+			element.mozRequestFullScreen();
+		} else if (element.webkitRequestFullscreen) { // Chrome, Safari
+			element.webkitRequestFullscreen();
+		} else if (element.msRequestFullscreen) { // IE/Edge
+			element.msRequestFullscreen();
+		}
+	}
+
 	if (Scenes.title) document.title = Scenes.title;
 
 	self.mediaCache = Object.create(null);
@@ -72,6 +86,14 @@ let currentStep = 1;
 	const foo = () => {
 		loadMsg.close();
 		setScene(1);
+
+		fullScr.showModal();
+		const bb = fullScr.querySelectorAll('button');
+		bb[0].onclick = () => {
+			enterFullscreen();
+			fullScr.close();
+		}
+		bb[1].onclick = () => fullScr.close();
 	}
 
 	lastPromise.finally(() => Promise.allSettled(promises).finally(foo));
@@ -112,10 +134,11 @@ app.repeat('#storyPhrases > div', appData.dialogs, (el, k) => {
 	}
 
 	if (prop.next) {
+		el.classList.add('clicked');
+
 		if (prop.next === -1)
 			el.onclick = alert.bind(undefined, 'Конец!');
 		else {
-			el.classList.add('clicked');
 			el.nextId = prop.next;
 			el.onclick = nextStep;
 		}

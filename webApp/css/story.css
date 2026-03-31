@@ -15,6 +15,7 @@
 		border-left: 4px solid rgb(212, 78, 11);
 		background: transparent;
 		cursor: default;
+		white-space: pre-line;
 
 		&:hover > div {
 			opacity: 0.85;
@@ -48,7 +49,7 @@
 	z-index: 0;
 }
 
-#loadMsg {
+#loadMsg, #fullScr {
 	border: none;
 	border-radius: 0.5em;
 	background-color: #6a7b9e;
@@ -58,6 +59,15 @@
 
 	&::backdrop {
 		background-color: #1b1d21;
+	}
+}
+
+#fullScr {
+	padding: 1em;
+
+	&::backdrop {
+		background-color: #1b1d2187;
+		backdrop-filter: blur(3px);
 	}
 }
 
