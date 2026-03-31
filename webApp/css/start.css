@@ -43,6 +43,10 @@ fieldset {
 
 a {
 	color: #5f87c5;
+
+	&:hover {
+		filter: saturate(170%);
+	}
 }
 
 button {
@@ -84,5 +88,10 @@ footer {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5em;
+
+		a:last-child {
+			color: #9c751a;
+			font-weight: bold;
+		}
 	}
 }
