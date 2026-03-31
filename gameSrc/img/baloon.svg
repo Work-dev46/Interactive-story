@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="800"
+   height="600"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="svg2.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title2">tesst</title>
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.375"
+     inkscape:cx="399.63636"
+     inkscape:cy="300"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <g
+     id="Layer_1"
+     transform="matrix(1,0,0,-1,0,603.78506)">
+    <title
+       id="title1">Layer 1</title>
+    <path
+       stroke-width="5"
+       id="svg_1"
+       d="m 20.5,84.02073 v 0 c 0,-36.46226 38.93723,-66.02076 86.96874,-66.02076 h 39.53127 v 0 h 189.75002 355.7812 c 23.0656,0 45.18643,6.95573 61.49627,19.33703 16.30974,12.38131 25.47252,29.17395 25.47252,46.68373 v 165.05193 0 99.03113 0 c 0,36.46228 -34.93721,65.02076 -86.96877,66.02076 H 336.75005 L 88.86506,582.00001 147.00003,414.12455 h -39.53127 c -48.03151,0 -86.96874,-29.55848 -86.96874,-66.02076 v 0 -99.03113 0 l -3e-5,-165.05193 z"
+       stroke="#000000"
+       fill="#93a5c1" />
+  </g>
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>tesst</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

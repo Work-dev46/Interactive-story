@@ -1,0 +1,88 @@
+* {font-family: 'Roboto', sans-serif;}
+
+html {
+	--text-color: #979eab;
+	--primary-color: #2d323d;
+	--secondary-color: #3f485b;
+}
+
+body {
+	background-color: var(--primary-color);
+	color: var(--text-color);
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	justify-content: space-between;
+	overflow: hidden;
+}
+
+main {
+	overflow: auto;
+}
+
+input, textarea, a, button {
+	cursor: pointer;
+}
+
+*:not(input, textarea, a, button) {
+	cursor: default;
+}
+
+h1, h2, h3 {
+	text-align: center;
+	margin: 0.5em;
+}
+
+fieldset {
+	border-color: var(--secondary-color);
+	margin: 0.5em;
+	overflow: auto;
+}
+
+a {
+	color: #5f87c5;
+}
+
+button {
+	width: 10em;
+	height: 30px;
+	font-size: 11pt;
+	color: var(--text-color);
+	background-color: #3f485b;
+	border: 1px solid rgba(0, 0, 0, 0.637);
+	border-radius: 0.25em;
+
+	&:hover {
+		background-color: #4f5b74;
+	}
+}
+
+.faq {
+	white-space: pre-line;
+	text-align: justify;
+	text-indent: each-line 1em;
+}
+
+.panel1 {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+footer {
+	margin-top: 1em;
+	border-top: 1px solid #13151a;
+	padding: 2em 1vh;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	aside {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5em;
+	}
+}

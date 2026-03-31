@@ -1,0 +1,146 @@
+#EActors {
+	overflow: hidden;
+}
+
+#storyPhrases {
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	padding: 0.5em;
+	overflow: auto;
+	scrollbar-color: #d3d3d370 #8080807a;
+
+	& > div {
+		border-left: 4px solid rgb(212, 78, 11);
+		background: transparent;
+		cursor: default;
+
+		&:hover > div {
+			opacity: 0.85;
+		}
+
+		div {
+			padding: 0.5em;
+			text-align: justify;
+			opacity: 0.15;
+			background-color: blue;
+			border-radius: 0 0.5em 0.5em 0;
+		}
+	}
+
+	& > div.clicked {
+		cursor: pointer;
+	}
+
+	& > div.clicked:hover {
+		border-left-color: green;
+	}
+
+	div.showAll > div {
+		opacity: 1;
+	}
+}
+
+#videoplayer {
+	grid-row: 1 / 11;
+	grid-column: 1 / 6;
+	z-index: 0;
+}
+
+#loadMsg {
+	border: none;
+	border-radius: 0.5em;
+	background-color: #6a7b9e;
+	text-align: center;
+	max-width: 75vh;
+	padding: 0.5em;
+
+	&::backdrop {
+		background-color: #1b1d21;
+	}
+}
+
+#ldCd {
+	max-height: calc(30vh);
+	overflow: auto;
+	font-size: 8px;
+	color: #00fb1b;
+	background-color: #2b3241;
+	padding: 0.5em;
+	width: calc(100% - 1em);
+	text-align: start;
+	white-space: pre-wrap;
+	margin-bottom: 10px;
+}
+
+.loader {
+	position: relative;
+
+	--size: 20px;
+	--color: black;
+	--parentWidth: 100%;
+	--margin: 10px;
+	--speed: 1.5s;
+	--speedDif: 0.05s;
+
+	width: var(--parentWidth);
+	height: var(--size);
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.loader div { 
+  position: absolute;
+  top: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: var(--color);
+  background: #89a1d2;
+  border: 1px solid #00000075;
+}
+
+@keyframes move1 {
+  from {
+    left: calc(var(--size) * 2 + var(--margin) * 2);
+  }
+  to {
+    left: calc(var(--parentWidth) - var(--size));
+  }
+}
+
+
+@keyframes move2 {
+  from {
+    left: calc(var(--size) + var(--margin));
+  }
+  to {
+    left: calc(var(--parentWidth) - var(--size) * 2 - var(--margin));
+  }
+}
+
+@keyframes move3 {
+  from {
+    left: 0px;
+  }
+  to {
+    left: calc(var(--parentWidth) - var(--size) * 3 - var(--margin) * 2);
+  }
+}
+
+.circle1 {
+  left: calc(var(--size) * 2 + var(--margin) * 2);
+  animation: var(--speed) ease-in-out 0s infinite alternate move1;
+}
+
+.circle2 {
+  left: calc(var(--size) + var(--margin));
+  animation: var(--speed) ease-in-out var(--speedDif) infinite alternate move2;
+}
+
+.circle3 {
+  left: 0px;
+  animation: var(--speed) ease-in-out calc(var(--speedDif) * 2) infinite alternate move3;
+}
+

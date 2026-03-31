@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Интерактивный рассказ</title>
+
+	<script src='./webApp/js/libs/BOToD.js'></script>
+	<script src="./webApp/js/libs/components.js"></script>
+
+	<script defer src="./gameSrc/dialogs/test.js"></script>
+	<script defer src="./webApp/js/story.js"></script>
+	<!--script defer src="./webApp/js/index.js"></script-->
+	<!--script defer src="./webApp/js/editor.js"></script-->
+
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="./webApp/css/index.css">
+	<link rel="stylesheet" href="./webApp/css/story.css">
+
+	<link rel="icon" href="/gameSrc/icons/ico.webp">
+</head>
+<body>
+	<section class="container">
+		<div class="top">
+			<div id="editorLeft" hidden>
+				<span>background</span> <input class="set-bkg" type="text">
+				<div id="editorSceneDetails">
+					<div>
+						<span>Модели:</span>
+						<select id="editorModelList">
+							<option></option>
+						</select>
+					</div>
+					<div id="editorModelProps">
+						<div><span>Визуал:</span> <input id="editorModelVisual" type="text"></div>
+						<div>
+							<span>Позиция:</span>
+							<div id="editorModelPos">
+								<input type="number">
+								<input type="number">
+								<input type="number">
+								<input type="number">
+							</div>
+						</div>
+						<div><span>Смещение:</span> <textarea id="editorModelOffset"></textarea></div>
+					</div>
+				</div>
+				
+				<div id="editorSteps">
+					<button>step</button>
+				</div>
+
+				<div id="editorDialog">
+					<span>Диалог актёра</span><input onclick="return false" type="checkbox">
+					<textarea></textarea>
+				</div>
+
+				<my-element></my-element>
+			</div>
+			<div id="EActors" scene="1" step="0">
+				<!--img src="./gameSrc/actors/filian.png" alt="1" hidden="true">
+				<img src="./gameSrc/actors/filian.png" alt="2" hidden="true">
+				<img src="./gameSrc/actors/filian2.png" alt="3" hidden="true">
+				<img src="./gameSrc/actors/filian2.png" alt="4" hidden="true">
+				<img src="./gameSrc/actors/filian2.png" alt="5" hidden="true"-->
+				<div id="storyPhrases">
+					<div><div></div></div>
+				</div>
+				<video id="videoplayer" loop autoplay muted ></video>
+			</div>
+			<div id="editorBotton">
+				<button>Scene id</button>
+			</div>
+		</div>
+	</section>
+
+	<section id="wPop" hidden="true">
+		<div class="menu-wraper">
+			<menu>
+				<button id="bReturn">Вернуться</button>
+				<button id="bNewGame">Новая игра</button>
+				<button id="bSaveGame">Сохранить</button>
+				<button id="bLoadGame">Загрузить</button>
+			</menu>
+		</div>
+	</section>
+
+	<dialog id="loadMsg">
+		<span>Загрузка и кэширование ресурсов</span>
+		<div class='loader'>
+			<div class='circle1'></div>
+			<div class='circle2'></div>
+			<div class='circle3'></div>
+		</div>
+		<div id="ldCd"></div>
+	</dialog>
+
+	<dialog id="dwin">
+		<div class="comic-speech">
+			<button id="0">Фраза1</button>
+			<button id="1">Фраза2</button>
+			<button id="2">Фраза3</button>
+			<button id="3">Фраза4</button>
+			<button id="4">Фраза5</button>
+		</div>
+	</dialog>
+
+	<dialog class="npc-speech comic-speech">
+		<button>Фраза1</button>
+	</dialog>
+</body>
+</html>

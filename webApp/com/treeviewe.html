@@ -1,0 +1,66 @@
+<script>
+class MyElement extends ExComponent {
+	renderPrase(data) {
+		const inpts = this.querySelectorAll('input');
+
+		EApp.resetEl(inpts[1]);
+		EApp.resetEl(this.querySelector('textarea'));
+
+		EApp.bind(inpts[1], data.manual);
+		EApp.bind(this.querySelector('textarea'), data.phrase);
+	}
+
+	build() {
+		const rdiv = this.children[0];
+		const detail = rdiv.children[0];
+
+		const data = Bdata.currentDialog;
+
+		if (!data) data = [];
+
+		if (Array.isArray(data)) {
+			this.querySelector('span').hidden = false;
+
+			const num = this.querySelector('input[type=number]');
+			num.max = data.length;
+			num.value = num.min = 0;
+			num.onchange = e => this.renderPrase(data[e.currentTarget.value]);
+			this.renderPrase(data[0]);
+		} else
+			this.querySelector('span').hidden = true;
+	}
+
+	connectedCallback() {
+		this.build();
+	}
+};
+</script>
+
+<style>
+	span {
+		display: flex;
+		align-items: baseline;
+		gap: 1em;
+	}
+
+	input[type=number] {
+		width: 4em;
+	}
+</style>
+
+<div>
+	<span>
+		<label>Варианты ответов:</label> 
+		<input type="number">
+	</span>
+	<details>
+		<summary></summary>
+		<label>Manual: </label> <input value="1" type="checkbox"> <br>
+		<label>phrase: </label> <textarea></textarea> <br>
+		<select>
+			<option value="next">next</option>
+			<option value="nstep">nstep</option> <input type="text">
+		</select>
+	</details>
+</div>
+
