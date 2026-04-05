@@ -17,7 +17,7 @@
 		cursor: default;
 		white-space: pre-line;
 
-		&:hover > div {
+		&.selected > div, &:hover > div {
 			opacity: 0.85;
 		}
 

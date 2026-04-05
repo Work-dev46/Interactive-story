@@ -6,6 +6,10 @@ const data = {
 	dialogs: [],
 };
 
+const appData = app.buildData(data);
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
 const setBkg = flName => {
 	if (!flName) return;
 
@@ -22,9 +26,6 @@ const setBkg = flName => {
 		EActors.style.backgroundImage = `url( ${mediaCache[flName] || './gameSrc/'.concat(flName)} )`;
 	}
 };
-/////////////////////////////////////////////////////
-/////////////////////////////////////////////////////
-const appData = app.buildData(data);
 
 const txts = document.querySelector("div#storyPhrases");
 txts.style.gridRow = `1 / span ${Scenes.story[1]}`;
@@ -34,18 +35,17 @@ const needClicked = new Set();
 let currentStep = 1;
 
 (() => {
-	function enterFullscreen() {
+	var enterFullscreen = () => {
 		const element = document.documentElement;
 
-		if (element.requestFullscreen) {
+		if (element.requestFullscreen)
 			element.requestFullscreen();
-		} else if (element.mozRequestFullScreen) { // Firefox
+		else if (element.mozRequestFullScreen) // Firefox
 			element.mozRequestFullScreen();
-		} else if (element.webkitRequestFullscreen) { // Chrome, Safari
+		else if (element.webkitRequestFullscreen) // Chrome, Safari
 			element.webkitRequestFullscreen();
-		} else if (element.msRequestFullscreen) { // IE/Edge
+		else if (element.msRequestFullscreen) // IE/Edge
 			element.msRequestFullscreen();
-		}
 	}
 
 	if (Scenes.title) document.title = Scenes.title;
@@ -56,7 +56,7 @@ let currentStep = 1;
 
 	loadMsg.showModal();
 
-	var loaderLogger = hdr => {
+	var loaderLogger = hdr => { 
 		ldCd.textContent += ((hdr.ok ? '✔️' : '❌').concat(hdr.url).concat('\n'));
 
 		ldCd.scrollTop = ldCd.scrollHeight;
@@ -64,12 +64,15 @@ let currentStep = 1;
 		return hdr;
 	};
 
+	const controller = new AbortController();
+	var signal = (controller).signal;
+
 	const handler = async el => {
 		if ((el.background) && (!mediaCache[el.background])) {
-			let promise = lastPromise = fetch(`./gameSrc/${el.background}`);
+			let promise = lastPromise = fetch(`./gameSrc/${el.background}`, { signal });
 			promise = promise.then(data => loaderLogger(data).ok ? data.blob() : null);
 			promise.then(blb => mediaCache[el.background] = blb && URL.createObjectURL(blb));
-
+			
 			promises.push(promise);
 		}
 	}
@@ -82,6 +85,8 @@ let currentStep = 1;
 		handler(scene);
 		scene.dialogs.forEach(handler);
 	}
+
+	loadMsg.querySelector('button').onclick = e => {controller.abort(); loadMsg.close()};
 
 	const foo = () => {
 		loadMsg.close();
@@ -97,6 +102,10 @@ let currentStep = 1;
 	}
 
 	lastPromise.finally(() => Promise.allSettled(promises).finally(foo));
+
+	document.onkeydown = e => e.key === 'Escape' &&
+		confirm('Вы умерены, что хотите вернуться на главную страницу?') &&
+		(document.location.href = './');
 })()
 
 var lastStep = null;
@@ -126,10 +135,12 @@ app.repeat('#storyPhrases > div', appData.dialogs, (el, k) => {
 
 	Object.assign(el.children[0].style, prop.css);
 
-	if (prop.showAll)
+	if (prop.showAll) {
 		el.classList.add('showAll');
-	else {
+		el.classList.remove('block');
+	} else {
 		needClicked.add(el);
+		el.classList.add('block');
 		el.classList.remove('showAll');
 	}
 
@@ -137,7 +148,7 @@ app.repeat('#storyPhrases > div', appData.dialogs, (el, k) => {
 		el.classList.add('clicked');
 
 		if (prop.next === -1)
-			el.onclick = alert.bind(undefined, 'Конец!');
+			el.onclick = () => alert('Конец!') || (document.location.href = './');
 		else {
 			el.nextId = prop.next;
 			el.onclick = nextStep;
