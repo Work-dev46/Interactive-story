@@ -31,8 +31,75 @@ const txts = document.querySelector("div#storyPhrases");
 txts.style.gridRow = `1 / span ${Scenes.story[1]}`;
 txts.style.gridColumn = `1 / span ${Scenes.story[0]}`;
 
-const needClicked = new Set();
-let currentStep = 1;
+var needClicked = new Set();
+var countBlocs = 0;
+var selectId = -1;
+var currentSceneId = 1;
+
+var setKeyController = () => {
+	var scrollTo = (parent, target) => {
+		const targetTop = target.offsetTop - parent.offsetTop;
+		parent.scrollTo({
+			top: targetTop,
+			behavior: 'smooth'
+		});
+	};
+
+
+	var DOWN	= 0;
+	var ENTER	= 1;
+	var UP		= 2;
+	var BACK	= 3;
+
+	var keyCode = {
+		ArrowDown: DOWN,
+		KeyS: DOWN,
+		Enter: ENTER,
+		NumpadEnter: ENTER,
+		KeyD: ENTER,
+		ArrowRight: ENTER,
+		ArrowUp: UP,
+		KeyW: UP,
+		ArrowLeft: BACK,
+		KeyA: BACK,
+
+	};
+
+	var selEl = null;
+	var tmpHide = null;
+
+	document.body.addEventListener('keyup', e => {
+		if (keyCode[e.code] === ENTER) {
+			if (tmpHide) {
+				(selEl = tmpHide).classList.add('selected');
+				tmpHide = null;
+			} else if (selEl && !nextStep(selEl.nextId))
+				selEl = null;
+		} else if (keyCode[e.code] === UP && !e.ctrlKey) {
+			txts.querySelector('div.block.selected')?.classList.remove('selected');
+			if ((--selectId) < 0) selectId = countBlocs - 1;
+
+			selEl = txts.querySelectorAll('div.block')[selectId];
+			selEl.classList.add('selected');
+			scrollTo(storyPhrases, selEl);
+			needClicked.delete(selEl);
+		} else if (keyCode[e.code] === BACK) {
+			if ((!selEl) && (currentSceneId > 1)) setScene(currentSceneId - 1);
+			selEl = null;
+			tmpHide = txts.querySelector('div.block.selected');
+			if (tmpHide) tmpHide.classList.remove('selected');
+		} else if (keyCode[e.code] === DOWN && !e.ctrlKey) {
+			if (countBlocs - 1 < (++selectId)) selectId = 0;
+
+			txts.querySelector('div.block.selected')?.classList.remove('selected');
+
+			selEl = txts.querySelectorAll('div.block')[selectId];
+			scrollTo(storyPhrases, selEl);
+			selEl.classList.add('selected');
+			needClicked.delete(selEl);
+		}
+	});
+}
 
 (() => {
 	var enterFullscreen = () => {
@@ -99,18 +166,23 @@ let currentStep = 1;
 			fullScr.close();
 		}
 		bb[1].onclick = () => fullScr.close();
+
+		return setKeyController();
 	}
 
 	lastPromise.finally(() => Promise.allSettled(promises).finally(foo));
 
-	document.onkeydown = e => e.key === 'Escape' &&
+	document.body.addEventListener('keydown', e => e.key === 'Escape' &&
 		confirm('Вы умерены, что хотите вернуться на главную страницу?') &&
-		(document.location.href = './');
+		(document.location.href = './'));
 })()
 
 var lastStep = null;
-const setScene = self.setScene = (i = 1) => {
-	const scene = currentScene = Scenes[i];
+const setScene = (i = 1) => {
+	const scene = Scenes[currentSceneId = i];
+	txts.querySelector('div.block.selected')?.classList.remove('selected');
+	countBlocs = 0;
+	selectId = -1;
 
 	if (scene.background)
 		setBkg(scene.background);
@@ -125,9 +197,9 @@ const setScene = self.setScene = (i = 1) => {
 	appData.dialogs = scene.dialogs;
 }
 
-const nextStep = (e) => needClicked.size > 0 ?
+const nextStep = nextId => needClicked.size > 0 ?
 	alert('Не просмотрены все фразы!') :
-	setScene(e.currentTarget.nextId);
+	setScene(nextId) || true;
 
 app.repeat('#storyPhrases > div', appData.dialogs, (el, k) => {
 	const prop = data.dialogs[k];
@@ -142,6 +214,7 @@ app.repeat('#storyPhrases > div', appData.dialogs, (el, k) => {
 		needClicked.add(el);
 		el.classList.add('block');
 		el.classList.remove('showAll');
+		countBlocs++;
 	}
 
 	if (prop.next) {
@@ -151,7 +224,7 @@ app.repeat('#storyPhrases > div', appData.dialogs, (el, k) => {
 			el.onclick = () => alert('Конец!') || (document.location.href = './');
 		else {
 			el.nextId = prop.next;
-			el.onclick = nextStep;
+			el.onclick = nextStep.bind(undefined, prop.next);
 		}
 	} else {
 		el.classList.remove('clicked');

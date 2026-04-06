@@ -17,7 +17,7 @@
 		cursor: default;
 		white-space: pre-line;
 
-		&.selected > div, &:hover > div {
+		:is(.selected > div, :hover > div) {
 			opacity: 0.85;
 		}
 
@@ -34,7 +34,7 @@
 		cursor: pointer;
 	}
 
-	& > div.clicked:hover {
+	& > :is(div.clicked:hover, div.clicked.selected) {
 		border-left-color: green;
 	}
 
