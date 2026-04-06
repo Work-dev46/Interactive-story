@@ -17,7 +17,7 @@
 	<link rel="stylesheet" href="./webApp/css/index.css">
 	<link rel="stylesheet" href="./webApp/css/story.css">
 
-	<link rel="icon" href="/gameSrc/icons/ico.webp">
+	<link rel="icon" href="./gameSrc/icons/ico.webp">
 </head>
 <body>
 	<section class="container">
@@ -68,9 +68,6 @@
 				</div>
 				<video id="videoplayer" loop autoplay muted ></video>
 			</div>
-			<div id="editorBotton">
-				<button>Scene id</button>
-			</div>
 		</div>
 	</section>
 
@@ -85,6 +82,11 @@
 		</div>
 	</section>
 
+	<dialog id="fullScr">
+		<button>Включить полный экран</button><br><br>
+		<button>Отмена</button>
+	</dialog>
+
 	<dialog id="loadMsg">
 		<span>Загрузка и кэширование ресурсов</span>
 		<div class='loader'>
@@ -93,6 +95,7 @@
 			<div class='circle3'></div>
 		</div>
 		<div id="ldCd"></div>
+		<button>Отклониить</button>
 	</dialog>
 
 	<dialog id="dwin">
