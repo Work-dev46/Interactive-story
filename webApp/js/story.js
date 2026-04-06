@@ -238,13 +238,12 @@ app.repeat('#storyPhrases > div', appData.dialogs, (el, k) => {
 
 	if (prop.next) {
 		el.classList.add('clicked');
+		el.nextId = prop.next;
 
 		if (prop.next === -1)
-			el.onclick = () => alert('Конец!') || (document.location.href = './');
-		else {
-			el.nextId = prop.next;
+			el.onclick = () => alert('Конец!') || (document.location.href = './end.html');
+		else
 			el.onclick = nextStep.bind(undefined, prop.next);
-		}
 	} else {
 		el.classList.remove('clicked');
 		el.onclick = null;
