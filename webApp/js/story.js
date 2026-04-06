@@ -45,11 +45,21 @@ var setKeyController = () => {
 		});
 	};
 
+	var selectedEl = (selectId) => {
+		txts.querySelector('div.block.selected')?.classList.remove('selected');
 
-	var DOWN	= 0;
-	var ENTER	= 1;
-	var UP		= 2;
-	var BACK	= 3;
+		selEl = txts.querySelectorAll('div.block')[selectId];
+		selEl.classList.add('selected');
+		scrollTo(storyPhrases, selEl);
+		selEl.onmouseenter();
+		needClicked.delete(selEl);
+	};
+
+
+	var DOWN	= 1;
+	var ENTER	= 2;
+	var UP		= 3;
+	var BACK	= 4;
 
 	var keyCode = {
 		ArrowDown: DOWN,
@@ -67,6 +77,7 @@ var setKeyController = () => {
 
 	var selEl = null;
 	var tmpHide = null;
+	var intervalId = null;
 
 	document.body.addEventListener('keyup', e => {
 		if (keyCode[e.code] === ENTER) {
@@ -75,28 +86,36 @@ var setKeyController = () => {
 				tmpHide = null;
 			} else if (selEl && !nextStep(selEl.nextId))
 				selEl = null;
-		} else if (keyCode[e.code] === UP && !e.ctrlKey) {
-			txts.querySelector('div.block.selected')?.classList.remove('selected');
-			if ((--selectId) < 0) selectId = countBlocs - 1;
+		} else if (keyCode[e.code] === UP) {
+			if (e.ctrlKey || e.shiftKey) return clearInterval(intervalId, rot = 0);
 
-			selEl = txts.querySelectorAll('div.block')[selectId];
-			selEl.classList.add('selected');
-			scrollTo(storyPhrases, selEl);
-			needClicked.delete(selEl);
+			if ((--selectId) < 0) selectId = countBlocs - 1;
+			selectedEl(selectId);
+		} else if (keyCode[e.code] === DOWN) {
+			if (e.ctrlKey || e.shiftKey) return clearInterval(intervalId, rot = 0);
+
+			if (countBlocs - 1 < (++selectId)) selectId = 0;
+			selectedEl(selectId);
 		} else if (keyCode[e.code] === BACK) {
 			if ((!selEl) && (currentSceneId > 1)) setScene(currentSceneId - 1);
+
 			selEl = null;
 			tmpHide = txts.querySelector('div.block.selected');
 			if (tmpHide) tmpHide.classList.remove('selected');
-		} else if (keyCode[e.code] === DOWN && !e.ctrlKey) {
-			if (countBlocs - 1 < (++selectId)) selectId = 0;
+		}
+	});
 
-			txts.querySelector('div.block.selected')?.classList.remove('selected');
+	var rot = 0;
 
-			selEl = txts.querySelectorAll('div.block')[selectId];
-			scrollTo(storyPhrases, selEl);
-			selEl.classList.add('selected');
-			needClicked.delete(selEl);
+	document.body.addEventListener('keydown', e => {
+		if (!(e.ctrlKey || e.shiftKey)) return;
+
+		if (keyCode[e.code] === UP) {
+			if (rot !== UP) intervalId = setInterval(() => storyPhrases.scrollBy(0, -20), 100);
+			rot = UP;
+		} else if (keyCode[e.code] === DOWN) {
+			if (rot !== DOWN) intervalId = setInterval(() => storyPhrases.scrollBy(0, 20), 100);
+			rot = DOWN;
 		}
 	});
 }

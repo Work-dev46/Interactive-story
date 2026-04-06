@@ -54,7 +54,7 @@
 	border-radius: 0.5em;
 	background-color: #6a7b9e;
 	text-align: center;
-	max-width: 75vh;
+	max-width: 75vw;
 	padding: 0.5em;
 
 	&::backdrop {
