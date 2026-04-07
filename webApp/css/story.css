@@ -2,10 +2,6 @@
 	overflow: hidden;
 }
 
-main {
-	background-image: url('./');
-}
-
 #storyPhrases {
 	z-index: 2;
 	display: flex;

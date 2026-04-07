@@ -20,6 +20,16 @@ body {
 
 main {
 	overflow: auto;
+	padding: 0 calc((100vw - 1440px) * 0.5);
+
+	.navbar {
+		width: 100%;
+		text-align: start;
+	}
+}
+
+.poster-wrap {
+	text-align: center;
 }
 
 input, textarea, a, button {
@@ -43,6 +53,9 @@ fieldset {
 
 a {
 	color: #5f87c5;
+	cursor: pointer;
+
+	* {cursor: pointer;}
 
 	&:hover {
 		filter: saturate(170%);
@@ -78,11 +91,11 @@ button {
 footer {
 	margin-top: 1em;
 	border-top: 1px solid #13151a;
-	padding: 2em 1vh;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: space-between;
+	padding: 2em calc((100vw - 1440px) * 0.5);
 
 	aside {
 		display: flex;

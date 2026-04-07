@@ -9,10 +9,18 @@
 	<link rel="stylesheet" href="./webApp/css/start.css">
 
 	<link rel="icon" href="./gameSrc/icons/ico.webp">
+	<script src="./gameSrc/dialogs/test.js"></script>
 </head>
 <body>
     <main>
-        <p>Повествование закончено.</p>
+		<nav class="navbar">
+			<a href='/index.html'>На главную</a>
+		</nav>	
+
+		<h2 id="nameStory"></h2>
+        <h3>Повествование закончено. Спасибо за внимание!</h3>
+
+		<div class="poster-wrap"><img src="./gameSrc/img/neuroslop.png" alt="Постер"></div>
     </main>
 
     <footer>
@@ -25,4 +33,9 @@
 		<span>v 0.9.1</span>
 	</footer>
 </body>
+
+<script>
+	if (Scenes.title) nameStory.innerText = document.title = Scenes.title;
+</script>
+
 </html>
