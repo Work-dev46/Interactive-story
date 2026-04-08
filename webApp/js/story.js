@@ -198,6 +198,8 @@ var setKeyController = () => {
 
 var lastStep = null;
 const setScene = (i = 1) => {
+	if (i === -1) return;
+
 	const scene = Scenes[currentSceneId = i];
 	txts.querySelector('div.block.selected')?.classList.remove('selected');
 	countBlocs = 0;
@@ -206,9 +208,7 @@ const setScene = (i = 1) => {
 	if (scene.background)
 		setBkg(scene.background);
 	else {
-		let bkg = scene.dialogs[0];
-		if (bkg.showAll)
-			bkg = scene.dialogs[1];
+		const bkg = scene.dialogs.find(el => el.background && !el.showAll);
 		setBkg(bkg.background);
 	}
 
