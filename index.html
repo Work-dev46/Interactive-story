@@ -11,6 +11,12 @@
 	<link rel="icon" href="./gameSrc/icons/ico.webp">
 
 	<script src="./gameSrc/dialogs/test.js"></script>
+
+	<script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+
+	<script>
+		vkBridge.send("VKWebAppInit", {});
+	</script>
 </head>
 <body>
 	<main>
