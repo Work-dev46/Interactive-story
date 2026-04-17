@@ -81,9 +81,9 @@ self.App = (() => {
 
 		var addRepeat = (handler, el, group) => {
 			el2handlerRept.set(el, handler);
-			let last = null;
+			let last = '';
 
-			currentObjProp.sliceParents.forEach(prnt => (repeatStore[last = prnt] || (repeatStore[prnt] = new Set())).add(el));
+			currentObjProp.sliceParents.forEach(prnt => (repeatStore[last = prnt] || (repeatStore[last = prnt] = new Set())).add(el));
 
 			last = last.concat(currentObjProp.prop);
 			(repeatStore[last] || (repeatStore[last] = new Set())).add(el)
@@ -173,6 +173,8 @@ self.App = (() => {
 				return acc;
 			}, []);
 
+			slice.unshift('');
+
 			return new Proxy(obj, {
 				get pKeys() { return matRow; },
 				sliceParents: slice,
@@ -190,11 +192,11 @@ self.App = (() => {
 
 						if ((target[prop] != null) ) {
 							if ((typeof(target[prop]) === 'object') && !(target[prop][_IS_PROXY])) {
-								//skipProxySetFlg = true;
+								skipProxySetFlg = true;
 								const selfParentProps = Array.from(parentProps);
 								selfParentProps.push(prop);
 								receiver[prop] = buildData(target[prop], deepLvl + 1, selfParentProps);
-								//skipProxySetFlg = false;
+								skipProxySetFlg = false;
 							}
 						}
 
@@ -233,7 +235,7 @@ self.App = (() => {
 
 
 					let storebinds = null, storeRepeats = null;
-					const key = this.sliceParents[this.sliceParents.length - 1];
+					const key = this.lastKey || '';
 
 					if (storeRepeats = repeatStore[key]) storeRepeats.forEach(el => (tmp = el2handlerRept.get(el)) && tmp(true));
 
