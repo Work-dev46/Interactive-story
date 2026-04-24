@@ -63,7 +63,6 @@ a {
 }
 
 button {
-	width: 10em;
 	height: 30px;
 	font-size: 11pt;
 	color: var(--text-color);
@@ -85,7 +84,10 @@ button {
 .panel1 {
 	width: 100%;
 	display: flex;
-	justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    justify-content: space-evenly;
 }
 
 footer {

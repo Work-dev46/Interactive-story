@@ -27,10 +27,6 @@ const setBkg = flName => {
 	}
 };
 
-const txts = document.querySelector("div#storyPhrases");
-txts.style.gridRow = `1 / span ${Scenes.story[1]}`;
-txts.style.gridColumn = `1 / span ${Scenes.story[0]}`;
-
 var needClicked = new Set();
 var countBlocs = 0;
 var selectId = -1;
@@ -96,7 +92,7 @@ var setKeyController = () => {
 			if (countBlocs - 1 < (++selectId)) selectId = 0;
 			selectedEl(selectId);
 		} else if (keyCode[e.code] === BACK) {
-			if ((!selEl) && (currentSceneId > 1)) setScene(currentSceneId - 1);
+			if ((!selEl) && (currentSceneId > 0)) setScene(currentSceneId - 1);
 
 			selEl = null;
 			tmpHide = txts.querySelector('div.block.selected');
@@ -119,7 +115,20 @@ var setKeyController = () => {
 	});
 }
 
-(() => {
+const sp = new URLSearchParams(document.location.search);
+
+var Scenes = null;
+var txts = null;
+
+import(`../../gameSrc/dialogs/${sp.get('story')}.js`).then(x => {
+	Scenes = x.Scenes;
+
+	if (Scenes.title) document.title = Scenes.title;
+
+	txts = document.querySelector("div#storyPhrases");
+	txts.style.gridRow = `1 / span ${Scenes.story[1]}`;
+	txts.style.gridColumn = `1 / span ${Scenes.story[0]}`;
+
 	var enterFullscreen = () => {
 		const element = document.documentElement;
 
@@ -132,8 +141,6 @@ var setKeyController = () => {
 		else if (element.msRequestFullscreen) // IE/Edge
 			element.msRequestFullscreen();
 	}
-
-	if (Scenes.title) document.title = Scenes.title;
 
 	self.mediaCache = Object.create(null);
 	const promises = [];
@@ -162,11 +169,11 @@ var setKeyController = () => {
 		}
 	}
 
-	let i = 1;
+	let i = 0;
 	let scene = null;
 
-	while (scene = Scenes[i]) {
-		scene = Scenes[i++];
+	while (scene = Scenes.seq[i]) {
+		scene = Scenes.seq[i++];
 		handler(scene);
 		scene.dialogs.forEach(handler);
 	}
@@ -175,7 +182,7 @@ var setKeyController = () => {
 
 	const foo = () => {
 		loadMsg.close();
-		setScene(1);
+		setScene();
 
 		fullScr.showModal();
 		const bb = fullScr.querySelectorAll('button');
@@ -193,13 +200,13 @@ var setKeyController = () => {
 	document.body.addEventListener('keydown', e => e.key === 'Escape' &&
 		confirm('Вы умерены, что хотите вернуться на главную страницу?') &&
 		(document.location.href = './'));
-})()
+});
 
 var lastStep = null;
-const setScene = (i = 1) => {
+const setScene = (i = 0) => {
 	if (i === -1) return alert('Конец!') || (document.location.href = './end.html');
 
-	const scene = Scenes[currentSceneId = i];
+	const scene = Scenes.seq[currentSceneId = i];
 	txts.querySelector('div.block.selected')?.classList.remove('selected');
 	countBlocs = 0;
 	selectId = -1;
@@ -235,11 +242,13 @@ app.repeat('#storyPhrases > div', appData.dialogs, (el, k) => {
 		countBlocs++;
 	}
 
-	if (prop.next) {
+	if (prop.next || prop.nextTo) {
 		el.classList.add('clicked');
 		el.nextId = prop.next;
 
-		el.onclick = nextStep.bind(undefined, prop.next);
+		prop.nextTo ||= Scenes.seq[currentSceneId++] ? currentSceneId : -1
+
+		el.onclick = nextStep.bind(undefined, prop.nextTo);
 	} else {
 		el.classList.remove('clicked');
 		el.onclick = null;

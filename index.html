@@ -10,8 +10,6 @@
 
 	<link rel="icon" href="./gameSrc/icons/ico.webp">
 
-	<script src="./gameSrc/dialogs/test.js"></script>
-
 	<script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
 
 	<script>
@@ -36,7 +34,8 @@
 
 		<small>Осторожно #нейрохрючево</small><br>
 		<div class="panel1">
-			<a href="./game.html"><button>Начать</button></a>
+			<a href="./game.html?story=test"><button>Трикстер играет с тобой</button></a>
+			<a href="./game.html?story=addon1"><button>История с Филиан</button></a>
 		</div>
 	</main>
 
@@ -45,13 +44,10 @@
 			<address>SergeyWerk (Graff46)</address>
 			<a target="_blank" href="https://vk.com/sergeywerk">Вк</a>
 			<a target="_blank" href="https://www.twitch.tv/sergeywerk">Твич</a>
+			<a target="_blank" href="https://gitverse.ru/sergey_werk/Interactive-story" >GitVerse</a>
 			<a target="_blank" href="https://www.donationalerts.com/r/sergey_werk" >Задонатить💸</a>
 		</aside>
 		<span>v 0.9.1</span>
 	</footer>
 </body>
-
-<script>
-	if (Scenes.title) nameStory.innerText = document.title = Scenes.title;
-</script>
 </html>
