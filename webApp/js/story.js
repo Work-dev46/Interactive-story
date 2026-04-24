@@ -246,9 +246,9 @@ app.repeat('#storyPhrases > div', appData.dialogs, (el, k) => {
 		el.classList.add('clicked');
 		el.nextId = prop.next;
 
-		prop.nextTo ||= Scenes.seq[currentSceneId++] ? currentSceneId : -1
+		const nextTo  = prop.nextTo || Scenes.seq[currentSceneId++] ? currentSceneId : -1;
 
-		el.onclick = nextStep.bind(undefined, prop.nextTo);
+		el.onclick = nextStep.bind(null, nextTo);
 	} else {
 		el.classList.remove('clicked');
 		el.onclick = null;
