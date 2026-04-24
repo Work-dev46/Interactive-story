@@ -179,7 +179,6 @@ var Scenes = {
 		]
 	},
 	10: {
-		background: 'img/8.mp4',
 		dialogs: [
 			{
 				phrase: '5. 5-й эпизод. Валера, настало твоё время.',
